@@ -1,6 +1,6 @@
 // This file was automatically added by layer0 deploy.
 // You should commit this file to source control.
-const { Router } = require('@layer0/core/router')
+const { Router, CustomCacheKey } = require('@layer0/core/router')
 const { nextRoutes } = require('@layer0/next')
 
 module.exports = new Router()
@@ -13,6 +13,8 @@ module.exports = new Router()
         maxAgeSeconds: 60 * 60,
         staleWhileRevalidateSeconds: 60 * 60 * 24, // this way stale items can still be prefetched
       },
+      key: new CustomCacheKey()
+      .addHeader('Authfoo') // Split cache by some-cookie cookie
     })
     proxy('graphql') // forward posts requests to apollo unaltered
   })
